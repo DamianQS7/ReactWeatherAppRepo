@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native-web';
+import { View, StyleSheet, Text } from 'react-native';
 import CurrentWeather from './src/components/CurrentWeather';
 import UpcomingWeather from './src/components/UpcomingWeather';
 
 const App = () => {
   return (
-    <View styles={styles.container}>
+    <View style={styles.container}>
       <UpcomingWeather />
     </View>
   )
