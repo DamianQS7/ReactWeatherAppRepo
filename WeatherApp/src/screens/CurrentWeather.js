@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import RowText from "../components/RowText";
 import { weatherType  } from "../utilities/weatherType";
 
-const CurrentWeather = () => {
+const CurrentWeather = (weatherData) => {
   const {
     wrapper,
     container,
