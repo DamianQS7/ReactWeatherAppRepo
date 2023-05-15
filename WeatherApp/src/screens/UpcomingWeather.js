@@ -10,46 +10,7 @@ import {
 } from "react-native";
 import ListItem from "../components/ListItem";
 
-const DATA = [
-  {
-    dt_text: "2021-07-01 12:00:00",
-    main: {
-      temp_max: 8.55,
-      temp_min: 7.55,
-    },
-    weather: [
-      {
-        main: "Clear",
-      },
-    ],
-  },
-  {
-    dt_text: "2022-07-01 15:00:00",
-    main: {
-      temp_max: 8.55,
-      temp_min: 7.55,
-    },
-    weather: [
-      {
-        main: "Clouds",
-      },
-    ],
-  },
-  {
-    dt_text: "2023-07-01 18:00:00",
-    main: {
-      temp_max: 8.55,
-      temp_min: 7.55,
-    },
-    weather: [
-      {
-        main: "Rain",
-      },
-    ],
-  },
-];
-
-const UpcomingWeather = () => {
+const UpcomingWeather = ({weatherData}) => {
   const renderItem = ({ item }) => (
     <ListItem
       condition={item.weather[0].main}
@@ -67,14 +28,11 @@ const UpcomingWeather = () => {
         style={image}
         source={require("../../assets/clouds-g91498649e_1920.jpg")}
       >
-        <Text>Upcoming Weather</Text>
+        
         <FlatList
-          data={DATA}
+          data={weatherData}
           renderItem={renderItem}
           keyExtractor={(item) => item.dt_text}
-          ItemSeparatorComponent={() => (
-            <View style={{ height: 0.5, backgroundColor: "rgba(0,0,0,0.5)" }} />
-          )}
         />
       </ImageBackground>
     </SafeAreaView>

@@ -4,11 +4,11 @@ import { Feather } from "@expo/vector-icons";
 import RowText from "../components/RowText";
 import { weatherType  } from "../utilities/weatherType";
 
-const CurrentWeather = (weatherData) => {
+const CurrentWeather = ({weatherData}) => {
   const {
     wrapper,
     container,
-    temp,
+    tempStyles,
     intervalWrapper,
     interval,
     feels,
@@ -16,23 +16,28 @@ const CurrentWeather = (weatherData) => {
     description,
     message,
   } = styles;
+
+  const { main: {temp, feels_like, temp_max, temp_min}, weather} = weatherData;
+
+  const weatherCondition = weather[0]?.main;
+
   return (
-    <SafeAreaView style={wrapper}>
+    <SafeAreaView style={[wrapper, {backgroundColor: weatherType[weatherCondition]?.backgroundColor}]}>
       <View style={container}>
-        <Feather name="sun" size={80} color="black" />
-        <Text style={temp}>6</Text>
-        <Text style={feels}>Feels Like: 5</Text>
+        <Feather name={weatherType[weatherCondition]?.icon} size={80} color="white" />
+        <Text style={`${temp}°`}>{}</Text>
+        <Text style={feels}>{`Feels Like: ${feels_like}°`}</Text>
         <RowText
-          messageOne={"High: 8"}
-          messageTwo={"Low: 6"}
+          messageOne={`High: ${temp_max}°`}
+          messageTwo={`Low: ${temp_min}°`}
           containerStyle={intervalWrapper}
           messageOneStyle={interval}
           messageTwoStyle={interval}
         />
       </View>
       <RowText
-        messageOne={"Its Sunny"}
-        messageTwo={"Its perfect t-shit weather!"}
+        messageOne={weatherData.weather[0]?.description}
+        messageTwo={weatherType[weatherCondition]?.message}
         containerStyle={bodyWrapper}
         messageOneStyle={description}
         messageTwoStyle={message}
@@ -44,7 +49,6 @@ const CurrentWeather = (weatherData) => {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: "lightgreen",
     marginTop: StatusBar.currentHeight || 0,
   },
   container: {
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  temp: {
+  tempSyles: {
     color: "black",
     fontSize: 48,
   },
@@ -74,10 +78,10 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   description: {
-    fontSize: 48,
+    fontSize: 43,
   },
   message: {
-    fontSize: 30,
+    fontSize: 25,
   },
 });
 

@@ -5,7 +5,7 @@ import { WEATHER_API_KEY } from "@env";
 export const useGetWeather = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [weatherData, setWeatherData] = useState(null);
+  const [weatherData, setWeatherData] = useState([]);
   const [lat, setLat] = useState([]);
   const [lon, setLon] = useState([]);
 
@@ -16,7 +16,6 @@ export const useGetWeather = () => {
       );
       const data = await response.json();
       setWeatherData(data);
-      setIsLoading(false);
     } catch (error) {
       setError("Could not load weather data");
     } finally {
@@ -27,10 +26,12 @@ export const useGetWeather = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
+
       if (status !== "granted") {
         setError("Permission to access location was denied");
         return;
       }
+
       let location = await Location.getCurrentPositionAsync({});
       setLat(location.coords.latitude);
       setLon(location.coords.longitude);

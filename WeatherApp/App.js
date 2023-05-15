@@ -6,23 +6,28 @@ import Tabs from "./src/components/Tabs";
 import * as Location from "expo-location";
 import { WEATHER_API_KEY } from "@env";
 import { useGetWeather } from "./src/hooks/useGetWeather";
+import ErrorItem from "./src/components/ErrorItem";
 
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const [isLoading, error, weatherData] = useGetWeather();
-
-  if (weatherData && weatherData.list) {
+  const [isLoading, error, weather] = useGetWeather();
+  console.log(weather);
+  if (weather && weather.list && !isLoading) {
     return (
       <NavigationContainer>
-        <Tabs weather={weatherData} />
+        <Tabs weather={weather} />
       </NavigationContainer>
     );
   }
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size={"large"} color={"blue"} />
+      {isLoading ? (
+        <ActivityIndicator size={"large"} color={"blue"} />
+      ) : (
+        <ErrorItem />
+      )}
     </View>
   );
 };
